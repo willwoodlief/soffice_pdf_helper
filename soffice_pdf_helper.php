@@ -34,14 +34,14 @@ function soffice_pdf_helper_error_log($log) {
  * @throws Exception
  */
 function soffice_pdf_helper_action_log( $message, $other = null ) {
-	global $module_path;
+	$module_path =  plugin_dir_path(__FILE__);
 
 	$stamp =  date("Y-m-d H:i:s");
 	$message = $stamp . ' ' . $message;
 	if ( $other !== null ) {
 		$message .= ':' . print_r( $other, true );
 	}
-	$log_file = $module_path . "process_log.txt";
+	$log_file = $module_path . "action_log.txt";
 
 	$fp = fopen( $log_file, "a+" );
 	if ( ! $fp ) {
