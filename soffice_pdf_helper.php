@@ -6,7 +6,7 @@
 /*
  *
 Plugin Name: SOffice PDF Helper
-Description: Requires <b>Open Office</b> Running on Linux with the /tmp directory having no initial folders created by open office (delete any .config and .cache in /tmp when first starting, it uses a home of /tmp when running soffice). This plugin provides a function <b>soffice_pdf_helper_make_pdf</b> which other plugins can call to get a pdf made from any kind of text file. This plugin makes sure that only one file at a time can be processed and will add an admin warning if something goes really wrong
+Description: Requires <b>Open Office</b> Running on Linux with the /tmp directory having no initial folders created by open office (delete any .config and .cache in /tmp when first starting, it uses a home of /tmp when running soffice). This plugin provides a function <b>soffice_pdf_helper_make_pdf</b> which other plugins can call to get a pdf made from any kind of text file. This plugin makes sure that only one file at a time can be processed and will keeps a log  action_log.txt located in the plugin dir. It also logs any exceptions to the wordpress error log
 Author: Will Woodlief
 Version: 1.0
 Author URI: mailto:willwoodlief@gmail.com
