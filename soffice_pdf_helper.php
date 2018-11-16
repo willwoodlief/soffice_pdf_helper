@@ -30,10 +30,11 @@ register_deactivation_hook( __FILE__, 'deactivate_soffice_pdf_helper' );
 add_action( 'init', 'soffice_pdf_helper_test' );
 
 function soffice_pdf_helper_test() {
+	return;
 	$file_path = '/home/will/htdocs/bed2/wp-content/uploads/legal/NDA_CompanyName.rtf';
 	$pdf_path =  soffice_pdf_helper_make_pdf($file_path);
 	try {
-		soffice_pdf_helper_action_log('the pdf file is ' . $pdf_path);
+		soffice_pdf_helper_action_log('the recieved pdf file is ' . $pdf_path);
 	} catch (Exception $e) {
 		soffice_pdf_helper_error_log('action log failed!');
 		soffice_pdf_helper_error_log($e);
@@ -194,7 +195,7 @@ function soffice_pdf_helper_make_pdf($file_path) {
 		soffice_pdf_helper_action_log("ran open office",['command_line'=>$command_line,'output'=>$output]);
 
 		$info = pathinfo($copy_file_path);
-		$ret = $info['filename'] . '.pdf' ;
+		$ret = trim($output_path,'/') . '/' . $info['filename'] . '.pdf' ;
 		soffice_pdf_helper_action_log('the pdf file is ' . $ret);
 
 	}
