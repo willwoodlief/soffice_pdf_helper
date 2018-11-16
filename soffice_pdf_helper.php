@@ -6,11 +6,40 @@
 /*
  *
 Plugin Name: SOffice PDF Helper
-Description: Requires <b>Open Office</b> Running on Linux with the /tmp directory having no initial folders created by open office (delete any .config and .cache in /tmp when first starting, it uses a home of /tmp when running soffice). This plugin provides a function <b>soffice_pdf_helper_add</b> which other plugins can call to get a pdf made from any kind of text file. This plugin makes sure that only one file at a time can be processed and will add an admin warning if something goes really wrong
+Description: Requires <b>Open Office</b> Running on Linux with the /tmp directory having no initial folders created by open office (delete any .config and .cache in /tmp when first starting, it uses a home of /tmp when running soffice). This plugin provides a function <b>soffice_pdf_helper_make_pdf</b> which other plugins can call to get a pdf made from any kind of text file. This plugin makes sure that only one file at a time can be processed and will add an admin warning if something goes really wrong
 Author: Will Woodlief
 Version: 1.0
 Author URI: mailto:willwoodlief@gmail.com
 */
+
+
+function activate_soffice_pdf_helper() {
+
+}
+
+/**
+ * The code that runs during plugin deactivation.
+ * This action is documented in includes/class-deactivator.php
+ */
+function deactivate_soffice_pdf_helper() {
+
+}
+
+register_activation_hook( __FILE__, 'activate_soffice_pdf_helper' );
+register_deactivation_hook( __FILE__, 'deactivate_soffice_pdf_helper' );
+add_action( 'init', 'soffice_pdf_helper_test' );
+
+function soffice_pdf_helper_test() {
+	$file_path = '/home/will/htdocs/bed2/wp-content/uploads/legal/NDA_CompanyName.rtf';
+	$pdf_path =  soffice_pdf_helper_make_pdf($file_path);
+	try {
+		soffice_pdf_helper_action_log('the pdf file is ' . $pdf_path);
+	} catch (Exception $e) {
+		soffice_pdf_helper_error_log('action log failed!');
+		soffice_pdf_helper_error_log($e);
+	}
+
+}
 
 
 /**
@@ -26,6 +55,8 @@ function soffice_pdf_helper_error_log($log) {
 		}
 	}
 }
+
+
 
 /**
  * @param $message
@@ -117,7 +148,7 @@ function soffice_pdf_helper_tempnam($prefix = null, $suffix = null, $dir = null)
  *   callee is expected to unlink the returning file
  * </p>
  */
-function soffice_pdf_helper_add($file_path) {
+function soffice_pdf_helper_make_pdf($file_path) {
 	$module_path =  plugin_dir_path(__FILE__);
 	$lock_file   = $module_path . 'lock/.lock';
 	$copy_file_path = null;
@@ -161,8 +192,10 @@ function soffice_pdf_helper_add($file_path) {
 
 		$output = shell_exec("$command_line 2>&1");
 		soffice_pdf_helper_action_log("ran open office",['command_line'=>$command_line,'output'=>$output]);
+
 		$info = pathinfo($copy_file_path);
 		$ret = $info['filename'] . '.pdf' ;
+		soffice_pdf_helper_action_log('the pdf file is ' . $ret);
 
 	}
 	catch ( Exception $e ) {
