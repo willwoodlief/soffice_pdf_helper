@@ -195,7 +195,7 @@ function soffice_pdf_helper_make_pdf($file_path) {
 		soffice_pdf_helper_action_log("ran open office",['command_line'=>$command_line,'output'=>$output]);
 
 		$info = pathinfo($copy_file_path);
-		$ret = trim($output_path,'/') . '/' . $info['filename'] . '.pdf' ;
+		$ret =  rtrim($output_path,'/') . '/' . $info['filename'] . '.pdf' ;
 		soffice_pdf_helper_action_log('the pdf file is ' . $ret);
 
 	}
